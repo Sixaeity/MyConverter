@@ -4,145 +4,98 @@ namespace MyConverter.ConsoleApp
 {
     public class Length
     {
-        public void Run()
+        // Default measure of length is metres (m).
+
+        public void Cycle()
         {
-            Core core =new Core();
-            Console.Write("\nEnter initial value:");
-            double initValue = Double.Parse(core.GetInput());
-            Console.Write("\nEnter initial measure:");
-            string initMeasure = core.GetInput();
-            Console.Write("\nEnter final measure:");
-            string finalMeasure = core.GetInput();
+            Console.Write("\nEnter a value: ");
+            double value = Double.Parse(Console.ReadLine());
+            Console.Write("Enter a value measure: ");
+            string measure = Console.ReadLine();
+            Console.Write("Enter a new measure: ");
+            string newMeasure = Console.ReadLine();
 
-            if (initMeasure == finalMeasure)
-                throw new Exception("");
+            double newValue = Proccesing(value, measure, newMeasure);
 
-            double finalValue = initValue;
+            Console.WriteLine("\n{0} {1} equals to {2} {3}.\n", value, measure, newValue, newMeasure);
+        }
 
-            switch (initMeasure)
+        public double Proccesing(double value, string measure, string newMeasure)
+        {
+            switch (newMeasure)
             {
-                case "kilometre":
-                case "kilometres":
                 case "km":
-                    switch (finalMeasure)
-                    {
-                        case "metre":
-                        case "metres":
-                        case "m":
-                            finalValue *= 1000;
-                        break;
+                    return ToKilometres(value, measure);
 
-                        case "centimetre":
-                        case "centimetres":
-                        case "cm":
-                            finalValue *= 100000;
-                        break;
-
-                        case "millimetre":
-                        case "millimetres":
-                        case "mm":
-                            finalValue *= 1000000;
-                        break;
-
-                        default:
-                            Console.WriteLine("\nUnknown measure.\n");
-                            break;
-                    }
-                    break;
-
-                case "metre":
-                case "metres":
                 case "m":
-                    switch (finalMeasure)
-                    {
-                        case "kilometre":
-                        case "kilometres":
-                        case "km":
-                            finalValue *= 0.001;
-                        break;
-
-                        case "centimetre":
-                        case "centimetres":
-                        case "cm":
-                            finalValue *= 100;
-                        break;
-
-                        case "millimetre":
-                        case "millimetres":
-                        case "mm":
-                            finalValue *= 1000;
-                        break;
-
-                        default:
-                            Console.WriteLine("\nUnknown measure.\n");
-                            break;
-                    }
-                    break;
-
-                case "centimetre":
-                case "centimetres":
+                    return ToMetres(value, measure);
+                
                 case "cm":
-                    switch (finalMeasure)
-                    {
-                        case "kilometre":
-                        case "kilometres":
-                        case "km":
-                            finalValue *= 0.0001;
-                        break;
-
-                        case "metre":
-                        case "metres":
-                        case "m":
-                            finalValue *= 0.01;
-                        break;
-
-                        case "millimetre":
-                        case "millimetres":
-                        case "mm":
-                            finalValue *= 10;
-                        break;
-
-                        default:
-                            Console.WriteLine("\nUnknown measure.\n");
-                            break;
-                    }
-                    break;
-
-                case "millimetre":
-                case "millimetres":
+                    return ToCentimetres(value, measure);
+                
                 case "mm":
-                    switch (finalMeasure)
-                    {
-                        case "kilometre":
-                        case "kilometres":
-                        case "km":
-                            finalValue *= 0.000001;
-                        break;
-
-                        case "metre":
-                        case "metres":
-                        case "m":
-                            finalValue *= 0.001;
-                        break;
-
-                        case "centimetre":
-                        case "centimetres":
-                        case "cm":
-                            finalValue *= 0.1;
-                        break;
-
-                        default:
-                            Console.WriteLine("\nUnknown measure.\n");
-                            break;
-                    }
-                    break;
+                    return ToMillimetres(value, measure);
 
                 default:
-                    Console.WriteLine("\nUnknown measure.\n");
-                    break;
+                    throw new Exception("Unknown measure of new length.");
             }
+        }
 
-            Console.WriteLine("\n{0} {1} equals {2} {3}.\n", initValue, initMeasure,finalValue, finalMeasure);
+        public double ToKilometres(double value, string measure)
+        {
+            double inKilometres = 1;
+            double inMetres = 0.001;
+            double inCentimetres = 0.00001;
+            double inMillimetres = 0.000001;
+            return Convert(value, measure, inKilometres, inMetres, inCentimetres, inMillimetres);
+        }
+
+        public double ToMetres(double value, string measure)
+        {
+            double inKilometres = 1000;
+            double inMetres = 1;
+            double inCentimetres = 0.01;
+            double inMillimetres = 0.001;
+            return Convert(value, measure, inKilometres, inMetres, inCentimetres, inMillimetres);
+        }
+
+        public double ToCentimetres(double value, string measure)
+        {
+            double inKilometres = 100000;
+            double inMetres = 100;
+            double inCentimetres = 1;
+            double inMillimetres = 0.1;
+            return Convert(value, measure, inKilometres, inMetres, inCentimetres, inMillimetres);
+        }
+
+        public double ToMillimetres(double value, string measure)
+        {
+            double inKilometres = 1000000;
+            double inMetres = 1000;
+            double inCentimetres = 10;
+            double inMillimetres = 1;
+            return Convert(value, measure, inKilometres, inMetres, inCentimetres, inMillimetres);
+        }
+
+        public double Convert(double value, string measure, double inKilometres, double inMetres, double inCentimetres, double inMillimetres)
+        {
+            switch (measure)
+            {
+                case "km":
+                    return (value * inKilometres);
+                
+                case "m":
+                    return (value * inMetres);
+                
+                case "cm":
+                    return (value * inCentimetres);
+                
+                case "mm":
+                    return (value * inMillimetres);
+
+                default:
+                    throw new Exception("Unknown measure of value length.");
+            }
         }
     }
 }

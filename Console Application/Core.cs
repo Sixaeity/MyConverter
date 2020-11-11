@@ -45,7 +45,7 @@ namespace MyConverter.ConsoleApp
 
                 case "length":
                     Length length = new Length();
-                    length.Run();
+                    length.Cycle();
                     return true;
 
                 default:
