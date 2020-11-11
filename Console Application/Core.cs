@@ -25,7 +25,7 @@ namespace MyConverter.ConsoleApp
 
         public string GetInput()
         {
-            Console.Write("MyConverter > ");
+            Console.Write("> ");
             string input = Console.ReadLine();
             return input;
         }
@@ -41,6 +41,11 @@ namespace MyConverter.ConsoleApp
                 case "list":
                 case "ls":
 
+                    return true;
+
+                case "length":
+                    Length length = new Length();
+                    length.Run();
                     return true;
 
                 default:
